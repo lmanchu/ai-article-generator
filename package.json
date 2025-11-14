@@ -1,0 +1,38 @@
+{
+  "name": "ai-article-generator",
+  "version": "1.0.0",
+  "description": "基於個人寫作風格的 AI 科技評論文章生成器 - 用 AI 寫出你自己的聲音",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "generate": "node auto-generate.js",
+    "test-news": "node news-aggregator.js",
+    "test-generator": "node article-generator.js"
+  },
+  "keywords": [
+    "ai",
+    "article-generator",
+    "ollama",
+    "hacker-news",
+    "writing-style",
+    "personalization",
+    "content-creation",
+    "llm",
+    "local-ai"
+  ],
+  "author": "Lman <lman@irisgo.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lmanchu/ai-article-generator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lmanchu/ai-article-generator/issues"
+  },
+  "homepage": "https://github.com/lmanchu/ai-article-generator#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

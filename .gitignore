@@ -1,0 +1,32 @@
+# Node modules
+node_modules/
+
+# Generated articles
+generated/*.md
+!generated/.gitkeep
+
+# Cache
+cache/
+
+# Logs
+*.log
+article-generator.log
+
+# Personal persona files (users should create their own)
+# But we'll keep a template
+# personas/
+
+# Environment variables
+.env
+.env.local
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Obsidian
+.obsidian/
+
+# Personal configuration (users should customize)
+# config.js will be tracked but users can override specific paths

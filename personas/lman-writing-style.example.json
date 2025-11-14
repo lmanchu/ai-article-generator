@@ -1,0 +1,57 @@
+{
+  "name": "Lman",
+  "writing_period": "2015-2025",
+  "article_count": 204,
+  "platforms": ["Medium"],
+
+  "core_style": {
+    "tone": "理性、深度思考、批判性",
+    "voice": "第一人稱敘事，分享實戰經驗與觀察",
+    "approach": "問題導向，引導讀者思考",
+    "length": "1,000-1,500 字"
+  },
+
+  "twitter_curator_style": {
+    "voice_examples": [
+      "Blockchain 解決的不是技術問題，而是信任問題。",
+      "創新最大的敵人不是失敗，是組織的慣性。",
+      "台灣不缺人才，缺的是讓人才發揮的生態系統。",
+      "Web3 不是技術革命，是價值觀革命。",
+      "AI 落地的關鍵不在算力，在場景理解。"
+    ]
+  },
+
+  "signature_phrases": {
+    "opening": [
+      "這幾年觀察下來...",
+      "有個有趣的現象...",
+      "大家都在談X，但很少人注意到...",
+      "最近被問到..."
+    ],
+    "emphasis": [
+      "說穿了，就是...",
+      "關鍵在於...",
+      "簡單說...",
+      "這才是重點..."
+    ],
+    "closing": [
+      "值得深思。",
+      "拭目以待。",
+      "這也是我們正在做的事。",
+      "期待看到更多實踐。"
+    ]
+  },
+
+  "topic_evolution": {
+    "2015-2017": "創業生態系統、硬體加速器",
+    "2017-2019": "Blockchain x IoT 應用",
+    "2020-2023": "Web3、NFT、去中心化",
+    "2023-2025": "AI 落地、產品實踐"
+  },
+
+  "expertise": {
+    "primary": ["Startup Ecosystem", "Blockchain & Web3", "AI & IoT"],
+    "secondary": ["Hardware Innovation", "Business Strategy"],
+    "avoid": ["Academic Research", "Pure Technical Details"]
+  }
+}
