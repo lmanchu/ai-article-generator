@@ -323,14 +323,32 @@ PATHS: {
 
 生成的文章會自動同步到你的 PKM 系統，可直接在 Obsidian 中編輯。
 
-### 自動發佈到 Medium（規劃中）
+### 自動發佈到 Medium & Substack（✅ 已實作）
 
+**發佈到 Medium**:
 ```bash
-# 未來功能
-node publish-to-medium.js generated/article.md
+# 發佈為草稿
+node publish-to-medium.js generated/article.md --draft
+
+# 直接公開發佈
+node publish-to-medium.js generated/article.md --publish
 ```
 
-詳見專案中的 `AUTO-PUBLISH-PLAN.md`。
+**發佈到 Substack**:
+```bash
+# Email-to-Post 模式
+node publish-to-substack.js generated/article.md
+```
+
+**一鍵多平台發佈**:
+```bash
+# 同時發佈到 Medium 和 Substack
+node publish.js generated/article.md \
+  --platforms=medium,substack \
+  --medium:publish
+```
+
+**完整設定指南**: 參見 `PUBLISHING-SETUP.md`
 
 ---
 
@@ -405,7 +423,8 @@ AI_CONFIG: {
 - [x] Hacker News 整合
 - [x] 個人化 Persona
 - [x] PKM 系統整合
-- [ ] Medium API 自動發佈
+- [x] **Medium API 自動發佈** ✨ NEW
+- [x] **Substack Email-to-Post 自動發佈** ✨ NEW
 - [ ] LinkedIn 自動發佈（BrowserOS）
 - [ ] Dev.to API 整合
 - [ ] Twitter 摘要自動推廣
