@@ -8,21 +8,29 @@
 const fs = require('fs');
 const path = require('path');
 const { publishToMedium } = require('./publish-to-medium');
-const { publishToSubstack } = require('./publish-to-substack');
+const { publishToSubstackViaBrowser } = require('./publish-to-substack-browser');
+const { publishToSubstackAuto } = require('./publish-to-substack-auto');
 
 /**
  * 支援的平台列表
+ *
+ * 2025 年更新:
+ * - Medium: 僅支援已有 Integration Token 的用戶（2025/1/1 後不再發放新 token）
+ * - Substack: Email-to-Post 功能已移除，改用 Puppeteer 自動化
  */
 const PLATFORMS = {
   medium: {
     name: 'Medium',
     emoji: '📰',
-    handler: publishToMedium
+    handler: publishToMedium,
+    note: '需要 Integration Token（2025/1/1 後不再發放新 token）'
   },
   substack: {
     name: 'Substack',
     emoji: '📧',
-    handler: publishToSubstack
+    handler: publishToSubstackAuto,  // 預設使用 Puppeteer 自動化
+    handlerManual: publishToSubstackViaBrowser,
+    note: '使用 Puppeteer 自動化（首次需登入）'
   }
 };
 
@@ -48,10 +56,18 @@ async function publishToPlatforms(articlePath, platforms, options = {}) {
     }
 
     console.log(`${platform.emoji} 發佈到 ${platform.name}...`);
+    if (platform.note) {
+      console.log(`💡 ${platform.note}`);
+    }
     console.log('-'.repeat(60));
 
     try {
-      const result = await platform.handler(articlePath, options[platformKey] || {});
+      // Substack 支援手動模式
+      const handler = (platformKey === 'substack' && options.substack?.manual)
+        ? platform.handlerManual
+        : platform.handler;
+
+      const result = await handler(articlePath, options[platformKey] || {});
       results[platformKey] = result;
 
       if (result.success) {
@@ -110,33 +126,40 @@ function showUsage() {
 
 選項:
   --platforms=<列表>     指定發佈平台（逗號分隔）
-  --medium:draft         Medium 發佈為草稿
-  --medium:publish       Medium 直接公開發佈
+  --medium:draft         Medium 發佈為草稿（需要 Integration Token）
+  --medium:publish       Medium 直接公開發佈（需要 Integration Token）
   --medium:no-notify     Medium 不通知追蹤者
-  --substack:method=<m>  Substack 發送方式（manual, macos-mail, gmail-mcp）
+  --substack:manual      Substack 使用手動模式（預設使用 Puppeteer 自動化）
+
+環境變數:
+  HEADLESS=false         顯示瀏覽器視窗（Substack Puppeteer 模式）
 
 範例:
+  # 發佈到 Substack（Puppeteer 自動化，顯示瀏覽器）
+  HEADLESS=false node publish.js generated/article.md --platforms=substack
+
+  # 發佈到 Medium（需要 Integration Token）
+  node publish.js generated/article.md --platforms=medium --medium:publish
+
   # 發佈到 Medium 和 Substack
   node publish.js generated/article.md --platforms=medium,substack
 
-  # 只發佈到 Medium（直接公開）
-  node publish.js generated/article.md --platforms=medium --medium:publish
-
-  # 發佈到所有平台
-  node publish.js generated/article.md --platforms=all
-
-  # Medium 草稿 + Substack 手動模式
-  node publish.js generated/article.md --platforms=medium,substack --medium:draft
+  # Substack 手動模式（不使用 Puppeteer）
+  node publish.js generated/article.md --platforms=substack --substack:manual
 
 詳細說明:
   各平台的詳細選項請參考:
   - Medium: node publish-to-medium.js --help
   - Substack: node publish-to-substack.js --help
 
-設定:
-  請確保已設定各平台的必要憑證:
-  - Medium: MEDIUM_TOKEN 環境變數或 Keychain
-  - Substack: Email-to-Post 功能已啟用
+重要提醒 (2025):
+  - Medium: 需要 Integration Token（2025/1/1 後不再發放新 token）
+    → 執行 'npm run check-medium' 檢查 token 狀態
+    → 如無 token，Medium 發佈將會失敗
+
+  - Substack: 使用 Puppeteer 自動化（Email-to-Post 已移除）
+    → 首次使用需手動登入（用 HEADLESS=false 模式）
+    → 或使用 --substack:manual 進行手動發佈
 `);
 }
 
@@ -178,8 +201,7 @@ function parseArgs(args) {
 
     // Substack 選項
     if (platform === 'substack') {
-      const methodArg = args.find(arg => arg.startsWith('--substack:method='));
-      options.substack.method = methodArg ? methodArg.split('=')[1] : 'manual';
+      options.substack.manual = args.includes('--substack:manual');
     }
   });
 

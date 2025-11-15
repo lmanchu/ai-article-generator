@@ -30,3 +30,12 @@ article-generator.log
 
 # Personal configuration (users should customize)
 # config.js will be tracked but users can override specific paths
+
+# Puppeteer
+.puppeteer-cache/
+puppeteer-user-data/
+*_substack_content.md
+*_substack.html
+
+# Chromium downloads
+.local-chromium/

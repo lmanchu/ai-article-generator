@@ -7,7 +7,11 @@
     "start": "node index.js",
     "generate": "node auto-generate.js",
     "test-news": "node news-aggregator.js",
-    "test-generator": "node article-generator.js"
+    "test-generator": "node article-generator.js",
+    "check-medium": "node check-medium-token.js",
+    "publish:medium": "node publish-to-medium.js",
+    "publish:substack": "HEADLESS=false node publish-to-substack-auto.js",
+    "publish": "node publish.js"
   },
   "keywords": [
     "ai",
@@ -33,6 +37,9 @@
   "engines": {
     "node": ">=16.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "puppeteer": "^24.30.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
 }

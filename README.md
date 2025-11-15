@@ -325,30 +325,50 @@ PATHS: {
 
 ### 自動發佈到 Medium & Substack（✅ 已實作）
 
-**發佈到 Medium**:
+**⚠️ 2025 年更新**:
+- **Medium**: 需要 Integration Token（2025/1/1 後不再發放新 token）
+- **Substack**: 使用 Puppeteer 瀏覽器自動化（Email-to-Post 已移除）
+
+**Step 1: 檢查 Medium Token**:
+```bash
+npm run check-medium
+```
+
+**Step 2: 發佈到 Substack（Puppeteer 自動化）**:
+```bash
+# 首次使用（顯示瀏覽器，需登入）
+HEADLESS=false npm run publish:substack generated/article.md
+
+# 登入後可用背景模式
+npm run publish:substack generated/article.md
+```
+
+**Step 3: 發佈到 Medium（如有 token）**:
 ```bash
 # 發佈為草稿
-node publish-to-medium.js generated/article.md --draft
+npm run publish:medium generated/article.md --draft
 
 # 直接公開發佈
-node publish-to-medium.js generated/article.md --publish
+npm run publish:medium generated/article.md --publish
 ```
 
-**發佈到 Substack**:
+**Step 4: 一鍵多平台發佈**:
 ```bash
-# Email-to-Post 模式
-node publish-to-substack.js generated/article.md
-```
+# Substack（Puppeteer 自動化）
+HEADLESS=false node publish.js generated/article.md --platforms=substack
 
-**一鍵多平台發佈**:
-```bash
-# 同時發佈到 Medium 和 Substack
+# Medium + Substack（需要 Medium token）
 node publish.js generated/article.md \
   --platforms=medium,substack \
-  --medium:publish
+  --medium:draft
 ```
 
 **完整設定指南**: 參見 `PUBLISHING-SETUP.md`
+
+**注意**: Puppeteer 首次使用需安裝依賴:
+```bash
+npm install
+```
 
 ---
 
@@ -423,8 +443,9 @@ AI_CONFIG: {
 - [x] Hacker News 整合
 - [x] 個人化 Persona
 - [x] PKM 系統整合
-- [x] **Medium API 自動發佈** ✨ NEW
-- [x] **Substack Email-to-Post 自動發佈** ✨ NEW
+- [x] **Medium API 自動發佈**（需現有 token）✨
+- [x] **Substack Puppeteer 自動發佈** ✨ NEW
+- [ ] Medium Puppeteer 自動發佈（給沒有 token 的用戶）
 - [ ] LinkedIn 自動發佈（BrowserOS）
 - [ ] Dev.to API 整合
 - [ ] Twitter 摘要自動推廣
